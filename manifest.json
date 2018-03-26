@@ -3,7 +3,7 @@
     "short_name": "GitHub Issue",
     "theme_color": "#663ab7",
     "background_color": "#ffd83f",
-    "start_url": "/simplified-github-repository/index.html",
+    "start_url": "/simplified-github-issues/index.html",
     "display": "standalone",
     "orientation": "portrait",
     "icons": [
