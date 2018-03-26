@@ -27,8 +27,8 @@ export class IssueDetailComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new IssuesActions.LoadSelectedIssue({
-      owner: this.route.snapshot.paramMap.get('owner'),
-      repo: this.route.snapshot.paramMap.get('repo'),
+      owner: this.route.snapshot.queryParamMap.get('owner'),
+      repo: this.route.snapshot.queryParamMap.get('repo'),
       issueNumber: +this.route.snapshot.paramMap.get('number')
     }));
   }

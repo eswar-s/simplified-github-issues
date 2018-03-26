@@ -5,9 +5,9 @@ import { IssuesComponent } from './issues/issues.component';
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/repos/angular/angular/issues', pathMatch: 'full' },
-  { path: 'repos/:owner/:repo/issues', component: IssuesComponent },
-  { path: 'repos/:owner/:repo/issues/:number', component: IssueDetailComponent },
+  { path: '', redirectTo: 'issues', pathMatch: 'full' },
+  { path: 'issues', component: IssuesComponent },
+  { path: 'issues/:number', component: IssueDetailComponent },
 ];
 
 @NgModule({

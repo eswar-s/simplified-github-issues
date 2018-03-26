@@ -7,7 +7,54 @@
     .options {
         padding: 12px 0px;
 
+        .owner-and-repo {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+
+            mat-form-field {
+                width: 40%;
+                padding-right: 5px;
+            }
+
+            .button-container {
+                padding-bottom: 1.3em;
+                flex: 1;
+
+                button {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            @media only screen and (max-width: 600px) {
+                justify-content: space-around;
+                mat-form-field {
+                    width: 48%;
+                    padding: 0;
+                }
+                .button-container {
+                    text-align: center;
+    
+                    button {
+                        max-width: 200px;
+                    }
+                }
+            }
+        }
+
+        .example-full-width {
+            width: 100%;
+        }
+
+        .radio-and-button {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
         mat-radio-group {
+            align-items: center;
             display: flex;
             justify-content: space-between;
             width: 240px;
@@ -47,6 +94,17 @@
                     cursor: pointer;
                     text-decoration: underline;
                 }
+
+                @media only screen and (max-width: 380px) {
+                    max-width: 280px;
+                    word-wrap: break-word;
+                }
+                
+                @media only screen and (max-width: 320px) {
+                   max-width: 260px;
+                   word-wrap: break-word;
+                }
+
             }
 
             p {

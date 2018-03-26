@@ -1,6 +1,26 @@
 <mat-progress-bar *ngIf="(loadingStatus$ | async) == 1" mode="indeterminate"></mat-progress-bar>
 
 <div class="options">
+  <!-- <table class="example-full-width" cellspacing="0"><tr>
+    <td><mat-form-field class="example-full-width">
+      <input matInput placeholder="Owner">
+    </mat-form-field></td>
+    <td><mat-form-field class="example-full-width">
+      <input matInput placeholder="Repo">
+    </mat-form-field></td>
+  </tr></table> -->
+  <div class="owner-and-repo">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Owner" [(ngModel)]="owner">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Repo" [(ngModel)]="repo">
+    </mat-form-field>
+    <div class="button-container">
+      <button mat-raised-button [disabled]="owner.length == 0 || repo.length == 0" (click)="changeRepo()">Submit</button>
+    </div>
+  </div>
+
   <mat-radio-group (change)="changeState()" [(ngModel)]="state">
     <mat-radio-button value="open">Open</mat-radio-button>
     <mat-radio-button value="closed">Closed</mat-radio-button>
@@ -14,7 +34,7 @@
         <mat-icon matListIcon [svgIcon]="getStateIcon(issue)" [class]="issue.state"></mat-icon>
       </div>
       <div class="info">
-        <h4 routerLink="{{issue.number}}">{{issue.title}}</h4>
+        <h4 [routerLink]="issue.number" [queryParams]="{owner: owner, repo: repo}">{{issue.title}}</h4>
         <p>{{getIssueInfo(issue)}}</p>
       </div>
     </div>

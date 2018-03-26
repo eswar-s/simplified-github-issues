@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MatIconModule, MatPaginatorModule, MatProgressBarModule,
-  MatCardModule, MatRadioModule, MatSnackBarModule } from '@angular/material';
+  MatCardModule, MatRadioModule, MatSnackBarModule, 
+  MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
@@ -43,7 +44,10 @@ import {
     MatCardModule,
     MatRadioModule,
     MatSnackBarModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
     GithubService,

@@ -21,10 +21,12 @@ export class IssuesComponent implements OnInit {
   totalCount$: Observable<number>;
   loadingStatus$: Observable<LoadingStatus>;
 
+  owner: string;
+  repo: string;
   state: string;
 
   constructor(public store: Store<AppState>, private route: ActivatedRoute) {
-    this.state = 'open';
+    this.cookDefaultValuesFromStorage();
     this.issues$ = this.store.select('issues').select('issues');
     this.perPage$ = this.store.select('issues').select('perPage');
     this.currentPage$ = this.store.select('issues').select('currentPage');
@@ -32,11 +34,44 @@ export class IssuesComponent implements OnInit {
     this.loadingStatus$ = this.store.select('issues').select('loadingStatus');
   }
 
+  private cookDefaultValuesFromStorage() {
+    this.state = 'open';
+    this.owner = 'angular';
+    this.repo = 'angular';
+    let state = localStorage.getItem('state');
+    let owner = localStorage.getItem('owner');
+    let repo = localStorage.getItem('repo');
+    if (state) {
+      this.state = state;
+    }
+    if (owner) {
+      this.owner = owner;
+    }
+    if (repo) {
+      this.repo = repo;
+    }
+  }
+
   ngOnInit() {
     this.store.dispatch(new IssuesActions.LoadIssues({
-      owner: this.route.snapshot.paramMap.get('owner'),
-      repo: this.route.snapshot.paramMap.get('repo'),
-      perPage: 5,
+      owner: this.owner,
+      repo: this.repo,
+      perPage: 10,
+      page: 1,
+      state: this.state
+    }));
+  }
+
+  changeRepo() {
+    this.state = 'open';
+    localStorage.setItem('state', this.state);
+    localStorage.setItem('owner', this.owner);
+    localStorage.setItem('repo', this.repo);
+
+    this.store.dispatch(new IssuesActions.LoadIssues({
+      owner: this.owner,
+      repo: this.repo,
+      perPage: 10,
       page: 1,
       state: this.state
     }));
@@ -62,8 +97,8 @@ export class IssuesComponent implements OnInit {
 
   paginatorChanges(event: PageEvent) {
     this.store.dispatch(new IssuesActions.LoadIssuesForPage({
-      owner: this.route.snapshot.paramMap.get('owner'),
-      repo: this.route.snapshot.paramMap.get('repo'),
+      owner: this.owner,
+      repo: this.repo,
       perPage: event.pageSize,
       page: event.pageIndex + 1,
       state: this.state
@@ -71,10 +106,11 @@ export class IssuesComponent implements OnInit {
   }
 
   changeState() {
+    localStorage.setItem('state', this.state);
     this.store.dispatch(new IssuesActions.LoadIssues({
-      owner: this.route.snapshot.paramMap.get('owner'),
-      repo: this.route.snapshot.paramMap.get('repo'),
-      perPage: 5,
+      owner: this.owner,
+      repo: this.repo,
+      perPage: 10,
       page: 1,
       state: this.state
     }));
