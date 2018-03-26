@@ -1,0 +1,30 @@
+<mat-progress-bar *ngIf="(loadingStatus$ | async) == 1" mode="indeterminate"></mat-progress-bar>
+
+<div class="options">
+  <mat-radio-group (change)="changeState()" [(ngModel)]="state">
+    <mat-radio-button value="open">Open</mat-radio-button>
+    <mat-radio-button value="closed">Closed</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<mat-card class="issue-list">
+    <div class="issue" *ngFor="let issue of issues$ | async">
+      <div class="state-icon-container">
+        <mat-icon matListIcon [svgIcon]="getStateIcon(issue)" [class]="issue.state"></mat-icon>
+      </div>
+      <div class="info">
+        <h4 routerLink="{{issue.number}}">{{issue.title}}</h4>
+        <p>{{getIssueInfo(issue)}}</p>
+      </div>
+    </div>
+</mat-card>
+
+<mat-paginator *ngIf="(totalCount$ | async) > 0" [length]="totalCount$ | async"
+              [pageSize]="perPage$ | async"
+              [pageSizeOptions]="[5, 10, 15, 20, 25, 50, 100]"
+              [pageIndex]="(currentPage$ | async) - 1"
+              [showFirstLastButtons]="'true'"
+              (page)="paginatorChanges($event)">
+</mat-paginator>
+
+<mat-card *ngIf="(loadingStatus$ | async) == 3">Sorry! Couldn't retrieve content from GitHub API</mat-card>

@@ -1,0 +1,87 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { PageEvent } from '@angular/material';
+
+import { AppState, LoadingStatus } from '../store/app.state';
+import * as IssuesActions from '../store/issues/issues.actions';
+import { Issue } from '../models/github.models';
+
+@Component({
+  selector: 'ds-issues',
+  templateUrl: './issues.component.html',
+  styleUrls: ['./issues.component.scss']
+})
+export class IssuesComponent implements OnInit {
+
+  issues$: Observable<Array<Issue>>;
+  perPage$: Observable<number>;
+  currentPage$: Observable<number>;
+  totalCount$: Observable<number>;
+  loadingStatus$: Observable<LoadingStatus>;
+
+  state: string;
+
+  constructor(public store: Store<AppState>, private route: ActivatedRoute) {
+    this.state = 'open';
+    this.issues$ = this.store.select('issues').select('issues');
+    this.perPage$ = this.store.select('issues').select('perPage');
+    this.currentPage$ = this.store.select('issues').select('currentPage');
+    this.totalCount$ = this.store.select('issues').select('totalCount');
+    this.loadingStatus$ = this.store.select('issues').select('loadingStatus');
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new IssuesActions.LoadIssues({
+      owner: this.route.snapshot.paramMap.get('owner'),
+      repo: this.route.snapshot.paramMap.get('repo'),
+      perPage: 5,
+      page: 1,
+      state: this.state
+    }));
+  }
+
+  getStateIcon(issue: Issue): string {
+    if (issue.pull_request) {
+      return 'pull-request';
+    } else if (issue.state == 'open') {
+      return 'issue-opened';
+    } else if (issue.state == 'closed') {
+      return 'issue-closed';
+    }
+  }
+
+  getIssueInfo(issue: Issue): string {
+    if (issue.state == 'closed') {
+      return `#${issue.number} by ${issue.user.login} was ${issue.state} ${this.getDays(issue.closed_at)} days ago`
+    } else if (issue.state == 'open') {
+      return `#${issue.number} opened ${this.getDays(issue.created_at)} days ago by ${issue.user.login}`
+    }
+  }
+
+  paginatorChanges(event: PageEvent) {
+    this.store.dispatch(new IssuesActions.LoadIssuesForPage({
+      owner: this.route.snapshot.paramMap.get('owner'),
+      repo: this.route.snapshot.paramMap.get('repo'),
+      perPage: event.pageSize,
+      page: event.pageIndex + 1,
+      state: this.state
+    }));
+  }
+
+  changeState() {
+    this.store.dispatch(new IssuesActions.LoadIssues({
+      owner: this.route.snapshot.paramMap.get('owner'),
+      repo: this.route.snapshot.paramMap.get('repo'),
+      perPage: 5,
+      page: 1,
+      state: this.state
+    }));
+  }
+
+  getDays(date: string) {
+    return Math.ceil(Math.abs(new Date().getTime() - new Date(date).getTime()) / (1000 * 3600 * 24));
+  }
+
+}

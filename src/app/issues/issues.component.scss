@@ -1,0 +1,80 @@
+:host {
+    display: block;
+    margin: 0 auto;
+    max-width: 980px;
+    padding: 8px;
+
+    .options {
+        padding: 12px 0px;
+
+        mat-radio-group {
+            display: flex;
+            justify-content: space-between;
+            width: 180px;
+        }
+    }
+
+    mat-card.issue-list {
+        padding: 0;
+    }
+
+    .issue {
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        padding: 8px;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .state-icon-container {
+            height: 16px;
+            padding-right: 8px;
+            padding-top: 2px;
+            width: 16px;
+        }
+
+        .info {
+            font-weight: 400;
+            flex: 1;
+
+            h4 {
+                font-weight: 400;
+                margin: 0;
+                padding: 0;
+
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+
+            p {
+                color: #888;
+                font-size: 12px;
+                margin: 0;
+                padding: 4px 0px 0px 0px;
+            }
+        }
+        
+    }
+
+
+    .closed {
+        color: #cb2431;
+        fill: currentColor;
+    }
+    
+    .open {
+        color: #28a745;
+        fill: currentColor;
+    }
+
+    mat-progress-bar {
+        left: 0;
+        position: fixed;
+        top: 0;
+        z-index: 1;
+    }
+    
+}

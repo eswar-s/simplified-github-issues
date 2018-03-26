@@ -1,0 +1,6 @@
+<mat-progress-bar *ngIf="(loadingStatus$ | async) == 1" mode="indeterminate"></mat-progress-bar>
+<mat-card *ngIf="selectedIssue">
+    <h4>{{selectedIssue.title}}</h4>
+    <mat-card-content [innerHTML]="getMarkDown(selectedIssue.mark_down)"></mat-card-content>
+</mat-card>
+<mat-card *ngIf="(loadingStatus$ | async) == 3">Sorry! Couldn't retrieve content from GitHub API</mat-card>
